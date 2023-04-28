@@ -1,35 +1,3 @@
-function addition(a,b){
-return a+b;
-}
-
-
-function subtraction(a,b){
-    return a-b;
-}
-
-function multiplication(a,b){
-    return a*b;
-}
-
-function division(a,b){
-    return a / b;
-}
-
-
-function operate(a,b){
-    division(a,b);
-}
-console.log(addition(1,2));
-console.log(subtraction(2,3));
-console.log(multiplication(5,5));
-console.log(division(1,3));
-console.log(operate(1,2));
-
-
-
-
-
-
 class Calculator {
     constructor(previousPartTextElement, currentPartTextElement) {
         this.previousPartTextElement = previousPartTextElement
@@ -90,12 +58,31 @@ this.operation = undefined;
         this.previousPart = '';
     }
 
-    updateDisplay() {
-        this.currentPartTextElement.innerText = this.currentPart
-        if(this.operation != null){
-            
+    getDisplayNumber(number) {
+        const stringNumber = number.toString();
+        const integerDigits = parseFloat(stringNumber.split('.')[0]);
+        const decimalDigits = stringNumber.split('.')[1];
+        let integerDisplay;
+        if (isNaN(integerDigits)) {
+            integerDisplay = '';
+        } else {
+            integerDisplay = integerDigits.toLocaleString('en', {maximumFractionDigits: 0 })
         }
-        this.previousPartTextElement.innerText = this.previousPart
+        if (decimalDigits !=null) {
+            return `${integerDisplay}.${decimalDigits}`
+        } else {
+            return integerDisplay;
+        }
+
+    }
+
+    updateDisplay() {
+        this.currentPartTextElement.innerText = this.getDisplayNumber(this.currentPart)
+        if(this.operation != null){
+            this.previousPartTextElement.innerText = `${this.getDisplayNumber(this.previousPart)} ${this.operation}`
+        } else {
+            this.previousPartTextElement.innerText = '';
+        }
         
  
     }
